@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DeviceHub 设备管理系统</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- <script src="js/app.js"></script> -->
+  </head>
+  <body>
+    <div class="container">
+      <!-- 左侧导航栏 -->
+      <aside class="sidebar">
+        <h2>DeviceHub</h2>
+
+        <nav>
+          <a href="#">仪表盘</a>
+          <a href="#">设备管理</a>
+          <a href="#">系统设置</a>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <h1>设备管理</h1>
+        <p>欢迎使用 DeviceHub 设备管理系统</p>
+
+        <!-- 设备统计区域 -->
+        <section class="stats">
+          <div class="stat-card">
+            <h3>设备总数</h3>
+            <p id="totalDevices">0</p>
+          </div>
+
+          <div class="stat-card">
+            <h3>在线设备</h3>
+            <p id="onlineDevices">0</p>
+          </div>
+
+          <div class="stat-card">
+            <h3>离线设备</h3>
+            <p id="offlineDevices">0</p>
+          </div>
+        </section>
+
+        <!-- 设备操作工具栏 -->
+        <div class="toolbar">
+          <!-- 左侧搜索框 -->
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="搜索设备名称或 MAC"
+          />
+
+          <!-- 状态筛选 -->
+          <select id="statusFilter">
+            <option value="all">全部设备</option>
+            <option value="online">在线设备</option>
+            <option value="offline">离线设备</option>
+          </select>
+
+          <select id="sortFilter">
+            <option value="id-asc">设备ID升序</option>
+            <option value="id-desc">设备ID降序</option>
+            <option value="name-asc">设备名称升序</option>
+            <option value="name-desc">设备名称降序</option>
+          </select>
+
+          <!-- 新增设备 -->
+          <button id="addDeviceBtn">+ 新增设备</button>
+        </div>
+
+        <!-- 设备列表 -->
+        <section class="device-section">
+          <h2>设备列表</h2>
+          <p id="deviceCount">共 0 台设备</p>
+
+          <table class="device-table">
+            <!-- 表格头部 -->
+            <thead>
+              <tr>
+                <th id="sortById" style="cursor: pointer">设备ID ↕</th>
+
+                <th id="sortByName" style="cursor: pointer">设备名称 ↕</th>
+                <th>MAC地址</th>
+                <th>房间号</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+
+            <!-- 表格内容 -->
+            <tbody id="deviceTableBody"></tbody>
+          </table>
+        </section>
+      </main>
+
+      <!-- 新增设备弹窗 -->
+      <div class="modal" id="deviceModal">
+        <div class="modal-content">
+          <h2>新增设备</h2>
+
+          <form id="deviceForm">
+            <label for="deviceName">设备名称</label>
+            <input
+              type="text"
+              id="deviceName"
+              placeholder="例如 AOA-004"
+              required
+            />
+            <small id="nameError" class="form-error"></small>
+
+            <label for="deviceMac">MAC 地址</label>
+            <input
+              type="text"
+              id="deviceMac"
+              placeholder="例如 AA:BB:CC:DD:EE:04"
+              required
+            />
+            <small id="macError" class="form-error"></small>
+
+            <label for="deviceRoom">房间号</label>
+            <input
+              type="text"
+              id="deviceRoom"
+              placeholder="例如 104"
+              required
+            />
+            <small id="roomError" class="form-error"></small>
+            
+
+            <label for="deviceStatus">设备状态</label>
+            <select id="deviceStatus">
+              <option value="online">在线</option>
+              <option value="offline">离线</option>
+            </select>
+
+            <div class="modal-actions">
+              <button type="button" id="cancelBtn">取消</button>
+
+              <button type="submit">保存设备</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- 设备详情弹窗 -->
+    <div class="modal" id="detailModal">
+      <div class="modal-content">
+        <h2>设备详情</h2>
+
+        <div class="detail-info">
+          <p>设备ID：<span id="detailId"></span></p>
+          <p>设备名称：<span id="detailName"></span></p>
+          <p>MAC地址：<span id="detailMac"></span></p>
+          <p>房间号：<span id="detailRoom"></span></p>
+          <p>设备状态：<span id="detailStatus"></span></p>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="closeDetailBtn">关闭</button>
+        </div>
+      </div>
+    </div>
+    <script src="js/app.js"></script>
+  </body>
+</html>
