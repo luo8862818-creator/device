@@ -375,75 +375,7 @@ deviceForm.addEventListener("submit", function (event) {
   clearFormErrors();
 });
 
-/* =========================
-   9. 删除设备
-========================= */
 
-deviceTableBody.addEventListener("click", function (event) {
-  const deleteBtn = event.target.closest(".delete-btn");
-
-  if (!deleteBtn) {
-    return;
-  }
-
-  const deviceId = Number(deleteBtn.dataset.id);
-
-  const index = devices.findIndex(function (device) {
-    return device.id === deviceId;
-  });
-
-  if (index === -1) {
-    alert("设备不存在！");
-    return;
-  }
-
-  const confirmed = confirm("确定删除这台设备吗？");
-
-  if (!confirmed) {
-    return;
-  }
-
-  devices.splice(index, 1);
-
-  filterDevices();
-
-  alert("设备删除成功！");
-});
-
-/* =========================
-   10. 编辑设备
-========================= */
-
-deviceTableBody.addEventListener("click", function (event) {
-  const editBtn = event.target.closest(".edit-btn");
-
-  if (!editBtn) {
-    return;
-  }
-
-  const deviceId = Number(editBtn.dataset.id);
-
-  const device = devices.find(function (item) {
-    return item.id === deviceId;
-  });
-
-  if (!device) {
-    alert("设备不存在！");
-    return;
-  }
-
-  editingDeviceId = deviceId;
-
-  deviceName.value = device.name;
-  deviceMac.value = device.mac;
-  deviceRoom.value = device.room;
-  deviceStatus.value = device.status;
-
-  clearFormErrors();
-
-  deviceModal.querySelector("h2").textContent = "编辑设备";
-  deviceModal.style.display = "flex";
-});
 
 /* =========================
    11. 排序箭头
@@ -473,34 +405,110 @@ function updateSortIndicators() {
 const detailModal = document.getElementById("detailModal");
 const closeDetailBtn = document.getElementById("closeDetailBtn");
 
+
+
+
+
+/* =========================
+   9. 设备列表事件委托
+========================= */
+
 deviceTableBody.addEventListener("click", function (event) {
-  const nameCell = event.target.closest(".device-name");
 
-  if (!nameCell) {
-    return;
-  }
+    // 1. 判断是否点击删除按钮
+    const deleteBtn = event.target.closest(".delete-btn");
 
-  const deviceId = Number(nameCell.dataset.id);
+    if (deleteBtn) {
+        const deviceId = Number(deleteBtn.dataset.id);
 
-  const device = devices.find(function (item) {
-    return item.id === deviceId;
-  });
+        const index = devices.findIndex(function (device) {
+            return device.id === deviceId;
+        });
 
-  if (!device) {
-    alert("设备不存在！");
-    return;
-  }
+        if (index === -1) {
+            alert("设备不存在！");
+            return;
+        }
 
-  document.getElementById("detailId").textContent = device.id;
-  document.getElementById("detailName").textContent = device.name;
-  document.getElementById("detailMac").textContent = device.mac;
-  document.getElementById("detailRoom").textContent = device.room;
+        const confirmed = confirm("确定删除这台设备吗？");
 
-  document.getElementById("detailStatus").textContent =
-    device.status === "online" ? "在线" : "离线";
+        if (!confirmed) {
+            return;
+        }
 
-  detailModal.style.display = "flex";
+        devices.splice(index, 1);
+
+        filterDevices();
+
+        alert("设备删除成功！");
+
+        return;
+    }
+
+    // 2. 判断是否点击编辑按钮
+    const editBtn = event.target.closest(".edit-btn");
+
+    if (editBtn) {
+        const deviceId = Number(editBtn.dataset.id);
+
+        const device = devices.find(function (item) {
+            return item.id === deviceId;
+        });
+
+        if (!device) {
+            alert("设备不存在！");
+            return;
+        }
+
+        editingDeviceId = deviceId;
+
+        deviceName.value = device.name;
+        deviceMac.value = device.mac;
+        deviceRoom.value = device.room;
+        deviceStatus.value = device.status;
+
+        clearFormErrors();
+
+        deviceModal.querySelector("h2").textContent = "编辑设备";
+        deviceModal.style.display = "flex";
+
+        return;
+    }
+
+    // 3. 判断是否点击设备名称
+    const nameCell = event.target.closest(".device-name");
+
+    if (nameCell) {
+        const deviceId = Number(nameCell.dataset.id);
+
+        const device = devices.find(function (item) {
+            return item.id === deviceId;
+        });
+
+        if (!device) {
+            alert("设备不存在！");
+            return;
+        }
+
+        document.getElementById("detailId").textContent = device.id;
+        document.getElementById("detailName").textContent = device.name;
+        document.getElementById("detailMac").textContent = device.mac;
+        document.getElementById("detailRoom").textContent = device.room;
+
+        document.getElementById("detailStatus").textContent =
+            device.status === "online" ? "在线" : "离线";
+
+        detailModal.style.display = "flex";
+
+        return;
+    }
+
 });
+
+
+
+
+
 
 closeDetailBtn.addEventListener("click", function () {
   detailModal.style.display = "none";
