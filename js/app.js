@@ -166,18 +166,18 @@ function deleteDevice(deviceId) {
  * 根据传入的设备数组渲染表格。
  */
 function renderDevices(deviceList = devices) {
-  deviceCount.textContent = \`共找到 ${deviceList.length} 台设备\`;
+  deviceCount.textContent = `共找到 ${deviceList.length} 台设备`;
 
   deviceTableBody.innerHTML = "";
 
   if (deviceList.length === 0) {
     const tr = document.createElement("tr");
 
-    tr.innerHTML = \`
+    tr.innerHTML = `
       <td colspan="6" style="text-align: center; padding: 40px; color: #94a3b8;">
         暂无符合条件的设备
       </td>
-    \`;
+    `;
 
     deviceTableBody.appendChild(tr);
     return;
@@ -186,7 +186,7 @@ function renderDevices(deviceList = devices) {
   deviceList.forEach(function (device) {
     const tr = document.createElement("tr");
 
-    tr.innerHTML = \`
+    tr.innerHTML = `
       <td></td>
       <td></td>
       <td></td>
@@ -200,7 +200,7 @@ function renderDevices(deviceList = devices) {
           删除
         </button>
       </td>
-    \`;
+    `;
 
     const cells = tr.querySelectorAll("td");
 
